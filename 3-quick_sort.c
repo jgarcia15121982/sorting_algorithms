@@ -26,7 +26,7 @@ void swap(int *a, int *b)
  *
  * Return: a int data that indicates the pivot position.
  */
- int partition(int *arr, int low, int high)
+ int partition(int *arr, size_t size, int low, int high)
 {
 	int i;
 	int j;
@@ -40,13 +40,20 @@ void swap(int *a, int *b)
 		if (arr[j] < pivot)
 		{
 			i++;
-			swap(&arr[i], &arr[j]);
-			print_array(arr, (size_t)high);	
+			if (i != j)
+			{
+				swap(&arr[j], &arr[i]);
+				print_array(arr, size);
+			}
 		}
 	}
-	swap(&arr[i + 1], &arr[high]);
-	print_array(arr, (size_t)high);
-	return (i + 1);
+	i++;
+	if (i != j && arr[i] != arr[j])
+	{
+		swap(&arr[high], &arr[i]);
+		print_array(arr, size);
+	}
+	return (i);
 }
 
 /**
@@ -57,15 +64,15 @@ void swap(int *a, int *b)
  * @low: First position of the array
  * @high: Last position of the array
  */
-void quicksrt(int *arr, int low, int high)
+void quicksrt(int *arr, size_t size, int low, int high)
 {
 	int piv;
 	
 	if (low < high)
-	{		
-		piv = partition(arr, low, high);		
-		quicksrt(arr, low, piv - 1);
-		quicksrt(arr, piv + 1, high);
+	{
+		piv = partition(arr, size, low, high);		
+		quicksrt(arr, size, low, piv - 1);
+		quicksrt(arr, size, piv + 1, high);
 	}
 }
 
@@ -78,7 +85,8 @@ void quicksrt(int *arr, int low, int high)
  */
 void quick_sort(int *array, size_t size)
 {
-	int low = 0;
-	int high = (int)size;	
-	quicksrt(array, low, high);
+	if (array == NULL || size < 2)
+		return;
+
+	quicksrt(array, size, 0, size - 1);
 }
