@@ -23,16 +23,17 @@ void swap(int *a, int *b)
  * @arr: The array to be sorted
  * @low: First position of the array
  * @high: Last position of the array
+ * @size: Number of elements in @arr
  *
  * Return: a int data that indicates the pivot position.
  */
- int partition(int *arr, size_t size, int low, int high)
+int partition(int *arr, size_t size, int low, int high)
 {
 	int i;
 	int j;
-	int pivot; 
+	int pivot;
+
 	pivot = arr[high];
-	
 	i = (low - 1);
 
 	for (j = low; j <= high - 1; j++)
@@ -63,14 +64,15 @@ void swap(int *a, int *b)
  * @arr: The array to be sorted
  * @low: First position of the array
  * @high: Last position of the array
+ * @size: Number of elements in @arr
  */
 void quicksrt(int *arr, size_t size, int low, int high)
 {
 	int piv;
-	
+
 	if (low < high)
 	{
-		piv = partition(arr, size, low, high);		
+		piv = partition(arr, size, low, high);
 		quicksrt(arr, size, low, piv - 1);
 		quicksrt(arr, size, piv + 1, high);
 	}
